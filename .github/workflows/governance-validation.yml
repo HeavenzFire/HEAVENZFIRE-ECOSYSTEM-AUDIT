@@ -2,7 +2,7 @@ name: Governance validation
 
 on:
   push:
-    branches: [main, "governance/**", "feature/**"]
+    branches: [main, "governance/**", "feature/**", "inventory/**"]
   pull_request:
   workflow_dispatch:
 
@@ -23,5 +23,7 @@ jobs:
           python-version: "3.12"
       - name: Validate relative Markdown links and image paths
         run: python scripts/validate_docs.py
-      - name: Check validator syntax
-        run: python -m py_compile scripts/validate_docs.py
+      - name: Check Python syntax
+        run: python -m py_compile scripts/validate_docs.py scripts/build_inventory.py
+      - name: Run inventory unit tests
+        run: python -m unittest discover -s tests -v
