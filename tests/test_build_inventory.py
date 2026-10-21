@@ -11,6 +11,7 @@ def repo(repo_id, name, *, private=False, archived=False):
         "html_url": f"https://github.com/owner/{name}",
         "default_branch": "main",
         "private": private,
+        "visibility": "private" if private else "public",
         "archived": archived,
         "size": 12,
         "updated_at": "2026-10-21T00:00:00Z",
@@ -48,6 +49,22 @@ class BuildInventoryTests(unittest.TestCase):
 
         with self.assertRaisesRegex(RuntimeError, "inventory is incomplete"):
             build_inventory("owner", per_page=2, page_fetcher=full_page, max_pages=2)
+
+    def test_rejects_internal_repositories_and_malformed_rows(self):
+        pages = {1: [
+            repo(1, "public-a"),
+            {**repo(2, "internal-b"), "visibility": "internal"},
+            "not-a-repository-object",
+        ]}
+
+        result = build_inventory(
+            "owner",
+            per_page=3,
+            page_fetcher=lambda username, page, per_page, token: pages.get(page, []),
+        )
+        self.assertEqual([r["full_name"] for r in result["repositories"]], ["owner/public-a"])
+        self.assertEqual(result["source"]["private_rows_excluded"], 1)
+        self.assertEqual(result["source"]["rows_missing_identity"], 1)
 
     def test_rejects_invalid_user(self):
         with self.assertRaises(ValueError):
