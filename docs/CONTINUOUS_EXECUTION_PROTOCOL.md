@@ -91,3 +91,37 @@ When stopping an action, preserve logs, state the precise blocker, and continue 
 ## Completion definition
 
 The workflow is operational only when these controls themselves are tested: state/evidence records are generated, ternary verdicts are enforced in reports, failures remain visible, routine changes reach a remote branch, required reviews are respected, and the final remote commit/CI state is independently re-read.
+
+
+## Refined escalation and separation-of-duty rules
+
+The independent evidence review identified three controls that must be explicit rather than implied.
+
+### UNKNOWN escalation matrix
+
+- **Routine/non-release criterion:** keep unrelated tasks moving; assign an owner, evidence needed, and next check. Do not label it passed.
+- **Security, data integrity, permission boundary, or release-critical criterion:** block the affected release/action until evidence resolves the unknown or an authorized human explicitly accepts a documented residual risk.
+- **Independent reviewer availability:** an unavailable external reviewer does not stop safe implementation and testing, but external approval remains `UNKNOWN` and a release requiring that review cannot be represented as approved.
+- **Conflicting evidence:** retain both findings and run a discriminating test or consult a primary source. Do not average away a contradiction.
+
+### Independence dimensions
+
+Record what makes a review independent: reviewer identity/role, whether the reviewer authored the change, model/provider and version when relevant, whether the reviewer received the exact commit and acceptance criteria, and whether the reviewer can approve the release independently. Different model branding alone is not proof of independence; common tools, prompts, data, or incentives can create correlated errors.
+
+The authoring agent must not count as the independent approver for its own change. For significant changes, prefer a maintainer/domain reviewer or a separately operated non-GPT reviewer, followed by reproducible tests and evidence.
+
+### Consensus is not majority voting
+
+When reviewers disagree, compare the exact claim, assumptions, evidence, and reproduction steps. Resolve with executable tests, primary documentation, or a qualified reviewer. A numerical majority is not sufficient evidence of correctness. Record unresolved disagreement as `UNKNOWN` and escalate according to the severity matrix.
+
+## Evidence review reference
+
+A Consensus research agent reviewed the design principles on 2026-10-21. Its research supports dependency-aware continuation, three-valued evidence verdicts, and independent verification in their respective literatures, but notes that transfer to this specific repository workflow is indirect. It highlighted missing operational semantics for `UNKNOWN`, independence levels, disagreement handling, and separation of duties. This was a design-evidence review, **not** a source-code review or proof that this repository implementation is correct.
+
+Research references:
+- [Consensus review thread](https://consensus.app/search/independently-evaluate-the-design-principles-in-th/Gy6ZSaDbSjK82rNocELPrg/)
+- [Parameterised three-valued model checking (2016)](https://doi.org/10.1016/j.scico.2016.01.006)
+- [Three-valued bounded model checking with cause-guided abstraction refinement (2019)](https://doi.org/10.1016/j.scico.2019.02.002)
+- [Independent Verification & Validation for Agile Developed Projects (2024)](https://doi.org/10.1109/aero58975.2024.10521415)
+- [Verification Witnesses (2022)](https://doi.org/10.1145/3477579)
+- [Consensus in multi-agent systems: a review (2021)](https://doi.org/10.1007/s10462-021-10097-x)
