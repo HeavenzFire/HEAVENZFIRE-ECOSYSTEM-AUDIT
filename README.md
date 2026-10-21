@@ -2,51 +2,42 @@
 
 This repository is the evidence-led audit workspace for the HeavenzFire portfolio. It separates verified repository facts from plans and claims that still require reproducible proof.
 
-## Current verified state
+## Current status
 
-At the baseline review on 2026-10-21, the GitHub tree for `main` contained `README.md` and `QUICK_START.md`. The earlier README referenced inventory, architecture, deployment, observability, and schema files that were not present in that tree. Those artifacts and the stated production/compliance claims must not be treated as verified until they are committed and tested.
+See [Implementation Status](docs/IMPLEMENTATION_STATUS.md) for the verified baseline and completion plan.
 
-See [Verified Baseline and Completion Plan](docs/IMPLEMENTATION_STATUS.md).
+## Governance and execution
 
-## Governance contract
+- [Agent governance contract](AGENTS.md)
+- [Continuous execution and independent verification protocol](docs/CONTINUOUS_EXECUTION_PROTOCOL.md)
 
-All agents and contributors must follow [AGENTS.md](AGENTS.md). The contract requires small reviewable changes, least privilege, explicit approval for high-impact actions, redaction of secrets, and evidence-backed claims.
+The protocol defines fail-forward task states, ternary PASS/FAIL/UNKNOWN evidence verdicts, routine branch-based delivery, approval boundaries, and independent review requirements. It does not treat a second pass by the same GPT instance as a non-GPT review.
+
+## Repository inventory
+
+- [Public repository inventory snapshot](inventory/repositories.json)
+- [Paginated inventory generator](scripts/build_inventory.py)
+
+The snapshot is public-only and search-derived. Run the generator with GitHub API access to refresh it; its metadata records pagination and completeness limits. It excludes private repositories by design.
 
 ## Validation
 
-Run locally from the repository root:
+Run from the repository root:
 
 ```bash
 python scripts/validate_docs.py
-python -m py_compile scripts/validate_docs.py
+python -m py_compile scripts/validate_docs.py scripts/build_inventory.py
+python -m unittest discover -s tests -v
 ```
 
-GitHub Actions runs the same checks on pushes and pull requests. These checks validate local Markdown links and Python syntax; they do not prove that services work or that the ecosystem is production-ready.
+GitHub Actions runs documentation validation and inventory unit tests on pushes and pull requests. Passing these checks does not prove that the full HeavenzFire ecosystem is production-ready.
 
 ## Roadmap
 
-1. **Inventory:** generate a fresh, paginated GitHub API inventory and retain collection metadata and errors.
-2. **Evidence classification:** assess each repository using source, dependency manifests, tests, CI, release/deployment configuration, and activity. A repository name or README claim alone is insufficient.
-3. **Architecture graph:** derive edges from observable dependencies and label inferred relationships separately.
-4. **Minimal working integration:** choose one control-plane repository and implement a typed task contract, provider adapters, bounded retries/timeouts, redacted audit events, and deterministic tests.
-5. **Enforcement:** add security checks and branch protections after inspecting current repository settings and ensuring required CI check names match.
-6. **Portfolio rollout:** adopt the shared contract through small pull requests, with per-repository acceptance evidence.
+1. Reconcile the search-derived snapshot against the paginated GitHub REST API output.
+2. Classify repositories using source, dependency manifests, tests, CI, releases, and deployment configuration.
+3. Derive an architecture graph from observable dependencies and label inferences.
+4. Implement and test one minimal control-plane integration with typed task contracts, provider adapters, bounded retries, and redacted audit events.
+5. Roll out shared controls through small, independently reviewed pull requests.
 
-## Evidence labels
-
-Use these terms consistently:
-
-- **Verified:** directly observed from a source, API response, or reproducible command.
-- **Tested:** an automated or documented test was run, with its result recorded.
-- **Planned:** proposed but not implemented.
-- **Unknown:** not yet established.
-
-Do not claim HIPAA, GDPR, SOC 2, production readiness, quantum advantage, or cross-provider shared state without evidence that directly supports the specific claim.
-
-## Project links
-
-- [GitHub repository](https://github.com/HeavenzFire/HEAVENZFIRE-ECOSYSTEM-AUDIT)
-- [Quick start](QUICK_START.md)
-- [Implementation status](docs/IMPLEMENTATION_STATUS.md)
-- [Governance contract](AGENTS.md)
-- [Documentation validator](scripts/validate_docs.py)
+Do not claim regulatory compliance, production readiness, quantum advantage, or cross-provider shared state without evidence that directly supports the specific claim.
