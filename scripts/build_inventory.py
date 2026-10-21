@@ -47,7 +47,7 @@ def fetch_page(username: str, page: int, per_page: int, token: str | None) -> li
     except urllib.error.HTTPError as exc:
         # Do not include request headers or tokens in diagnostics.
         raise RuntimeError(f"GitHub API returned HTTP {exc.code} on page {page}") from None
-    except (urllib.error.URLError, TimeoutError, json.JSONDecodeError) as exc:
+    except (urllib.error.URLError, TimeoutError, UnicodeDecodeError, json.JSONDecodeError) as exc:
         raise RuntimeError(f"GitHub API request failed on page {page}: {type(exc).__name__}") from None
     if not isinstance(payload, list):
         raise RuntimeError(f"Unexpected GitHub API response type on page {page}")
@@ -86,7 +86,16 @@ def build_inventory(
     private_excluded = 0
     missing_identity = 0
     for repo in rows:
-        if repo.get("private") is True or repo.get("visibility") == "private":
+        if not isinstance(repo, dict):
+            missing_identity += 1
+            continue
+        visibility = repo.get("visibility")
+        # Fail closed: only explicitly public repositories may enter the snapshot.
+        # Older payloads without visibility are accepted only when private is False.
+        if repo.get("private") is True or visibility not in ("public", None):
+            private_excluded += 1
+            continue
+        if visibility is None and repo.get("private") is not False:
             private_excluded += 1
             continue
         full_name = repo.get("full_name")
