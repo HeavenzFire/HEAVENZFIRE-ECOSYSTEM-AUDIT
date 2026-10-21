@@ -10,8 +10,9 @@ See [Implementation Status](docs/IMPLEMENTATION_STATUS.md) for the verified base
 
 - [Agent governance contract](AGENTS.md)
 - [Continuous execution and independent verification protocol](docs/CONTINUOUS_EXECUTION_PROTOCOL.md)
+- [Independent evidence review notes](docs/INDEPENDENT_EVIDENCE_REVIEW.md)
 
-The protocol defines fail-forward task states, ternary PASS/FAIL/UNKNOWN evidence verdicts, routine branch-based delivery, approval boundaries, and independent review requirements. It does not treat a second pass by the same GPT instance as a non-GPT review.
+The protocol defines fail-forward task states, ternary PASS/FAIL/UNKNOWN evidence verdicts, routine branch-based delivery, approval boundaries, and independent review requirements. The evidence review supports the design direction but is not a source-code review or proof that the ecosystem is production-ready.
 
 ## Repository inventory
 
