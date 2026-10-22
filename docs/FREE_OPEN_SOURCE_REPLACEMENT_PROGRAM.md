@@ -44,7 +44,7 @@ These are candidates to evaluate, not claims that they are installed or equivale
 
 ### First known friction point
 
-A prior attempt to use TinyFish for an external AI Studio review stopped because the available wallet balance was insufficient. That establishes a credit dependency for that attempted workflow—not that every TinyFish function requires payment. The replacement target is the underlying workflow (browser navigation, controlled test execution, evidence capture), not TinyFish's proprietary implementation. Start with a local Playwright runner and a controlled test page; do not claim it can operate every third-party site until tested.
+A prior attempt to use TinyFish for an external AI Studio review stopped because the available wallet balance was insufficient. That establishes a credit dependency for that attempted workflow—not that every TinyFish function requires payment. The replacement target is the underlying workflow (browser navigation, controlled test execution, evidence capture), not TinyFish's proprietary implementation. Start with a local Puppeteer Core runner and a controlled test page; do not claim it can operate every third-party site until tested.
 
 ## Inventory schema
 
@@ -81,7 +81,7 @@ Do not invent spend figures or claim a dependency is paid without a receipt, acc
 **Exit gate:** every identified dependency has an owner, purpose, data classification, export path, candidate, and status.
 
 ### Phase 1 — Remove avoidable credit dependency
-- Build a small local browser task runner on Playwright.
+- Build a small local browser task runner on Puppeteer Core or Playwright, with the selected library and license pinned.
 - Add task manifests with domain allowlists, timeouts, explicit approvals for high-impact actions, redacted append-only evidence, and a kill switch.
 - Use local inference for private or routine model calls where hardware and model licenses permit.
 - Make remote-provider fallback opt-in and visible; never silently send local data to a hosted model.
@@ -130,4 +130,4 @@ A candidate is BLOCKED when its license, hardware feasibility, security model, o
 - Self-hosted Git/CI/storage stack: candidate only; not yet migrated
 - Any claim that every paywall has been eliminated: NOT ESTABLISHED
 
-The next concrete implementation slice is a minimal Playwright-based local runner with an explicit task manifest, domain allowlist, timeout, redacted audit record, and controlled local test page. Do not retire any existing service until that slice passes its tests.
+The first implementation slice is now a Puppeteer Core-based local runner under HeavenzFire/HeavenzFire PR #78; subsequent work should integrate it into approved workflows only after review with an explicit task manifest, domain allowlist, timeout, redacted audit record, and controlled local test page. Do not retire any existing service until that slice passes its tests.
