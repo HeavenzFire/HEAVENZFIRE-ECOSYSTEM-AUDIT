@@ -144,7 +144,7 @@ def self_test() -> int:
             "branch": "test/branch", "base_ref": "main", "permitted_paths": ["src/**"],
             "rollback_ref": "0123456789abcdef0123456789abcdef01234567", "execution_evidence": None,
         }]}
-    }
+
     if validate(good):
         print("SELF-TEST FAIL: valid manifest rejected")
         return 1
