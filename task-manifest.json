@@ -25,7 +25,14 @@
       "test_command": "npm run build",
       "timeout_seconds": 300,
       "status": "PLANNED",
-      "evidence": []
+      "evidence": [],
+      "base_ref": "main",
+      "permitted_paths": [
+        "src/**",
+        "tests/**"
+      ],
+      "rollback_ref": "not-applicable: no changes merged",
+      "execution_evidence": null
     },
     {
       "task_id": "B",
@@ -49,7 +56,14 @@
       "test_command": "npm run build",
       "timeout_seconds": 300,
       "status": "PLANNED",
-      "evidence": []
+      "evidence": [],
+      "base_ref": "main",
+      "permitted_paths": [
+        "src/**",
+        "tests/**"
+      ],
+      "rollback_ref": "not-applicable: no changes merged",
+      "execution_evidence": null
     },
     {
       "task_id": "C",
@@ -73,7 +87,14 @@
       "test_command": "npm run build",
       "timeout_seconds": 300,
       "status": "PLANNED",
-      "evidence": []
+      "evidence": [],
+      "base_ref": "main",
+      "permitted_paths": [
+        "src/**",
+        "tests/**"
+      ],
+      "rollback_ref": "not-applicable: no changes merged",
+      "execution_evidence": null
     },
     {
       "task_id": "D",
@@ -103,14 +124,22 @@
       "test_command": "npm run build",
       "timeout_seconds": 600,
       "status": "PLANNED",
-      "evidence": []
+      "evidence": [],
+      "base_ref": "main",
+      "permitted_paths": [
+        "src/**",
+        "tests/**",
+        "artifacts/experiments/**"
+      ],
+      "rollback_ref": "not-applicable: no changes merged",
+      "execution_evidence": null
     },
     {
       "task_id": "E",
       "title": "Shared task contract and validation",
       "repository": "HeavenzFire/HEAVENZFIRE-ECOSYSTEM-AUDIT",
       "issue_url": "https://github.com/HeavenzFire/HEAVENZFIRE-ECOSYSTEM-AUDIT/issues/5",
-      "branch": "feat/microtask-federation-contract",
+      "branch": "feature/audit-inventory-microtask-contract-2026-10-22",
       "depends_on": [],
       "scope": [
         "task envelope schema",
@@ -127,11 +156,18 @@
       ],
       "test_command": "python scripts/validate_task_manifest.py --self-test",
       "timeout_seconds": 30,
-      "status": "PASS",
-      "evidence": [
-        "https://github.com/HeavenzFire/HEAVENZFIRE-ECOSYSTEM-AUDIT/commit/1610a4d9094eced249f0a51d80a1c6fca5737403",
-        "https://github.com/HeavenzFire/HEAVENZFIRE-ECOSYSTEM-AUDIT/actions/runs/39697987467"
-      ]
+      "status": "UNKNOWN",
+      "evidence": [],
+      "base_ref": "main",
+      "permitted_paths": [
+        "docs/MICROTASK_FEDERATION.md",
+        "scripts/validate_task_manifest.py",
+        "task-manifest.json",
+        "tests/test_validate_task_manifest.py",
+        ".github/workflows/governance-validation.yml"
+      ],
+      "rollback_ref": "not-applicable: no changes merged",
+      "execution_evidence": null
     }
   ]
 }
