@@ -121,6 +121,20 @@ A replacement is PASS only when all apply:
 
 A candidate is BLOCKED when its license, hardware feasibility, security model, or required feature is incompatible. An unrun test is UNKNOWN, never PASS.
 
+## Observed provider inventory (initial scan, 2026-10-22)
+
+These are code-level findings from public repository contents, not proof of billing or actual API usage:
+
+| Repository | Observed integration | Replacement status |
+|---|---|---|
+| [Aethel-Syntropic-Intelligence-Engine](https://github.com/HeavenzFire/Aethel-Syntropic-Intelligence-Engine) | Gemini 3 Pro/Flash API, client-side key injection in Vite config | Local Ollama replacement PR #1; build and local proxy smoke test PASS; quality parity UNKNOWN |
+| [Entropy-Shield-System-Augmentation-Nexus](https://github.com/HeavenzFire/Entropy-Shield-System-Augmentation-Nexus) | Gemini 3 Pro/Flash API, client-side key injection in Vite config | Local Ollama replacement PR #1; build and local proxy smoke test PASS; model-generated score explicitly treated as heuristic |
+| [Aethelgard-Civilization-Resilience-Engine](https://github.com/HeavenzFire/Aethelgard-Civilization-Resilience-Engine) | Gemini text models plus Gemini TTS; client-side key injection in Vite config | NOT MIGRATED. Requires a separate offline TTS decision; text-only replacement would not cover voice output |
+| [Hall-Of-Miracles-](https://github.com/HeavenzFire/Hall-Of-Miracles-) | @google/genai dependency used across multiple components | NOT MIGRATED. Component-level call inventory required before a safe adapter migration |
+| [EntangledMultimodalSystem-3](https://github.com/HeavenzFire/EntangledMultimodalSystem-3) | Python Gemini integration; a committed environment file contained a populated key | Containment PR #221 removes the file from the current tree; provider-side key rotation and history cleanup remain outstanding |
+
+Additional note: the public search found more than one app using the same Gemini SDK pattern. Do not assume all these apps have incurred charges; free-tier access, billing state, and actual request usage were not inspected.
+
 ## Current status
 
 - Program charter: documented in this file
