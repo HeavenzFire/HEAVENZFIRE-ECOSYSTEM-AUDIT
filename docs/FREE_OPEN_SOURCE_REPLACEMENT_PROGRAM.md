@@ -125,8 +125,8 @@ A candidate is BLOCKED when its license, hardware feasibility, security model, o
 
 - Program charter: documented in this file
 - Full paid-service inventory: UNKNOWN; not yet completed
-- Playwright replacement: candidate only; not yet implemented or tested
-- Local inference replacement coverage: partial/unknown by workflow
+- Local browser automation: implemented in [HeavenzFire/HeavenzFire PR #78](https://github.com/HeavenzFire/HeavenzFire/pull/78); local Edge fixture tests pass 2/2; existing BrowserBridge regression passes 1/1; PR review/CI pending
+- Local inference: live smoke test passed on 2026-10-22 against 127.0.0.1:11800 using heavenzfire-qwen-0.5b; exact response LOCAL_OK verified; broader quality and workflow coverage remain UNKNOWN
 - Self-hosted Git/CI/storage stack: candidate only; not yet migrated
 - Any claim that every paywall has been eliminated: NOT ESTABLISHED
 
