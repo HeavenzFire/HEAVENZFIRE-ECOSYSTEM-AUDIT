@@ -125,6 +125,8 @@ A candidate is BLOCKED when its license, hardware feasibility, security model, o
 
 - Program charter: documented in this file
 - Full paid-service inventory: UNKNOWN; not yet completed
+- Local service audit (2026-10-22): Coder on 127.0.0.1:3001 reports Ollama configured and OpenAI/Gemini unconfigured; gateway on 127.0.0.1:3000 is unavailable. This is a local endpoint snapshot, not a complete account/subscription inventory.
+- Credential containment: a public committed environment file was found in HeavenzFire/EntangledMultimodalSystem-3; cleanup PR #221 removes it from the current tree and adds a safe template. Provider-side rotation and historical cleanup remain outstanding.
 - Local browser automation: implemented in [HeavenzFire/HeavenzFire PR #78](https://github.com/HeavenzFire/HeavenzFire/pull/78); local Edge fixture tests pass 2/2; existing BrowserBridge regression passes 1/1; PR review/CI pending
 - Local inference: live smoke test passed on 2026-10-22 against 127.0.0.1:11800 using heavenzfire-qwen-0.5b; exact response LOCAL_OK verified; broader quality and workflow coverage remain UNKNOWN
 - Self-hosted Git/CI/storage stack: candidate only; not yet migrated
