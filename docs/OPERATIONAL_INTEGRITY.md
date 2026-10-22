@@ -34,3 +34,20 @@ The report is triage evidence, not certification. It does not label a project re
 5. Fix one repository at a time on a feature branch; preserve a known-good revision and require diff/test evidence before merge.
 
 The scanner uses Python's standard library. Passing its unit tests verifies only the scanner paths covered by those tests, not every repository it scans.
+## Reference implementation: pixel-mycelium lattice
+
+`src/heavenzfire_mycelium.py` implements an executable N-dimensional lattice, not a static drawing. Each cell has bounded scalar state; neighbor topology is derived from orthogonal adjacency (optionally periodic edges); activation changes cell state; each simulation step performs deterministic weighted diffusion and decay; and `slice_2d()` exports a pixel grid from a chosen higher-dimensional slice. The implementation is pure Python and has no runtime third-party dependency.
+
+Example:
+
+```python
+from src.heavenzfire_mycelium import LatticeConfig, PixelMycelium
+
+field = PixelMycelium(LatticeConfig((16, 16, 8), diffusion=0.25, decay=0.01))
+field.activate((8, 8, 4), 1.0)
+field.step(20)
+print(field.summary())
+pixels = field.slice_2d((4,))  # 16 x 16 slice at depth 4
+```
+
+This is a deterministic computational lattice inspired by mycelial propagation; it is not a biological simulation validated against real organisms, and it does not imply quantum behavior. Tests cover dimensionality, cell counts, edge topology, propagation determinism, periodic boundaries, invalid inputs, and 4D-to-2D slicing.
