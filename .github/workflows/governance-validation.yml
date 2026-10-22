@@ -2,7 +2,7 @@ name: Governance validation
 
 on:
   push:
-    branches: [main, "governance/**", "feature/**"]
+    branches: [main, "governance/**", "feature/**", "feat/**"]
   pull_request:
   workflow_dispatch:
 
@@ -24,4 +24,8 @@ jobs:
       - name: Validate relative Markdown links and image paths
         run: python scripts/validate_docs.py
       - name: Check validator syntax
-        run: python -m py_compile scripts/validate_docs.py
+        run: python -m py_compile scripts/validate_docs.py scripts/validate_task_manifest.py
+      - name: Validate microtask manifest
+        run: python scripts/validate_task_manifest.py
+      - name: Test microtask manifest validator
+        run: python scripts/validate_task_manifest.py --self-test
