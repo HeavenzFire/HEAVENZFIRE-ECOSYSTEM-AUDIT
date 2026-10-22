@@ -5,7 +5,8 @@ from __future__ import annotations
 
 import json
 import sys
-from pathlib import Path
+from pathlib import Path, PurePosixPath
+import re
 from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -14,7 +15,7 @@ STATUSES = {"PLANNED", "RUNNING", "PASS", "FAIL", "UNKNOWN"}
 REQUIRED = {
     "task_id", "title", "repository", "depends_on", "scope",
     "outputs", "acceptance", "test_command", "timeout_seconds",
-    "status", "evidence",
+    "status", "evidence", "base_ref", "permitted_paths", "rollback_ref", "execution_evidence",
 }
 
 
@@ -39,8 +40,46 @@ def validate(data: dict[str, Any]) -> list[str]:
             errors.append(f"duplicate task_id: {task_id}")
         else:
             by_id[task_id] = task
-        if task.get("status") not in STATUSES:
-            errors.append(f"{task_id}: invalid status {task.get('status')!r}")
+        status = task.get("status")
+        if status not in STATUSES:
+            errors.append(f"{task_id}: invalid status {status!r}")
+        base_ref = task.get("base_ref")
+        if not isinstance(base_ref, str) or not base_ref.strip() or any(ch.isspace() for ch in base_ref):
+            errors.append(f"{task_id}: base_ref must be a non-empty ref without whitespace")
+        permitted = task.get("permitted_paths")
+        if not isinstance(permitted, list) or not permitted or not all(isinstance(item, str) and item.strip() for item in permitted):
+            errors.append(f"{task_id}: permitted_paths must be a non-empty list of relative path patterns")
+        else:
+            for item in permitted:
+                normalized = PurePosixPath(item.replace("\\", "/"))
+                if normalized.is_absolute() or ".." in normalized.parts or re.match(r"^[A-Za-z]:", item):
+                    errors.append(f"{task_id}: permitted path must stay relative to the repository: {item}")
+        rollback_ref = task.get("rollback_ref")
+        if not isinstance(rollback_ref, str) or not rollback_ref.strip():
+            errors.append(f"{task_id}: rollback_ref must be a non-empty commit/URL or explicit not-applicable reason")
+        elif rollback_ref.startswith("not-applicable:"):
+            if status not in {"PLANNED", "UNKNOWN"}:
+                errors.append(f"{task_id}: not-applicable rollback is allowed only before verified work")
+        elif not (
+            re.fullmatch(r"[0-9a-fA-F]{7,40}", rollback_ref)
+            or rollback_ref.startswith("refs/heads/")
+            or rollback_ref.startswith("https://github.com/")
+        ):
+            errors.append(f"{task_id}: rollback_ref must be a commit SHA, branch ref, GitHub URL, or allowed not-applicable reason")
+        execution = task.get("execution_evidence")
+        if execution is not None and not isinstance(execution, dict):
+            errors.append(f"{task_id}: execution_evidence must be an object or null")
+        if status == "RUNNING":
+            if not isinstance(task.get("branch"), str) or not task.get("branch", "").strip():
+                errors.append(f"{task_id}: RUNNING requires a concrete branch/workspace reference")
+            required_execution = ("provider", "instance_id", "observed_at", "status", "evidence_url")
+            if not isinstance(execution, dict) or any(
+                not isinstance(execution.get(field), str) or not execution[field].strip()
+                for field in required_execution
+            ):
+                errors.append(f"{task_id}: RUNNING requires provider-reported instance and observable execution evidence")
+            elif execution.get("provider") not in {"github-actions", "codespaces", "local-worker"} or execution.get("status") != "running" or not execution.get("evidence_url", "").startswith("https://"):
+                errors.append(f"{task_id}: execution_evidence must identify an allowed provider, running status, and HTTPS evidence URL")
         for field in ("scope", "outputs", "acceptance"):
             value = task.get(field)
             if not isinstance(value, list) or not value or not all(
@@ -102,8 +141,9 @@ def self_test() -> int:
             "depends_on": [], "scope": ["scope"], "outputs": ["output"],
             "acceptance": ["testable condition"], "test_command": "python -m unittest",
             "timeout_seconds": 30, "status": "PASS", "evidence": ["https://example.test/evidence"],
-            "branch": "test/branch",
-        }]
+            "branch": "test/branch", "base_ref": "main", "permitted_paths": ["src/**"],
+            "rollback_ref": "0123456789abcdef0123456789abcdef01234567", "execution_evidence": None,
+        }]}
     }
     if validate(good):
         print("SELF-TEST FAIL: valid manifest rejected")
@@ -128,14 +168,31 @@ def self_test() -> int:
     if not any("cannot depend on itself" in item for item in validate(bad)):
         print("SELF-TEST FAIL: self-dependency accepted")
         return 1
-    print("SELF-TEST PASS: valid case accepted; four invalid cases rejected.")
+    bad = json.loads(json.dumps(good))
+    bad["tasks"][0]["status"] = "RUNNING"
+    bad["tasks"][0]["execution_evidence"] = None
+    if not any("RUNNING requires provider-reported" in item for item in validate(bad)):
+        print("SELF-TEST FAIL: RUNNING without provider evidence accepted")
+        return 1
+    bad = json.loads(json.dumps(good))
+    bad["tasks"][0]["permitted_paths"] = ["../outside"]
+    if not any("must stay relative" in item for item in validate(bad)):
+        print("SELF-TEST FAIL: path escape accepted")
+        return 1
+    print("SELF-TEST PASS: valid case accepted; invalid contract cases rejected.")
     return 0
 
 
 def main(argv: list[str]) -> int:
     if "--self-test" in argv:
+        if argv != ["--self-test"]:
+            print("Expected --self-test alone", file=sys.stderr)
+            return 2
         return self_test()
-    path = Path(argv[1]) if len(argv) > 1 else DEFAULT_MANIFEST
+    if len(argv) > 1:
+        print("Expected at most one manifest path", file=sys.stderr)
+        return 2
+    path = Path(argv[0]) if argv else DEFAULT_MANIFEST
     try:
         data = json.loads(path.read_text(encoding="utf-8"))
     except (OSError, json.JSONDecodeError) as exc:
