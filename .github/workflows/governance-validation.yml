@@ -2,7 +2,7 @@ name: Governance validation
 
 on:
   push:
-    branches: [main, "governance/**", "feature/**"]
+    branches: [main, "governance/**", "feature/**", "feat/**"]
   pull_request:
   workflow_dispatch:
 
