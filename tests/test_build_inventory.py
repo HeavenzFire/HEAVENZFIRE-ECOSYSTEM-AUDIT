@@ -1,6 +1,8 @@
 import unittest
+from unittest.mock import patch
+from urllib.parse import parse_qs, urlparse
 
-from scripts.build_inventory import build_inventory
+from scripts.build_inventory import build_inventory, fetch_page
 
 
 def repo(repo_id, name, *, private=False, archived=False):
@@ -69,6 +71,22 @@ class BuildInventoryTests(unittest.TestCase):
     def test_rejects_invalid_user(self):
         with self.assertRaises(ValueError):
             build_inventory("owner/path", page_fetcher=lambda *args: [])
+
+    def test_fetch_page_uses_stable_full_name_sort(self):
+        class Response:
+            def __enter__(self):
+                return self
+            def __exit__(self, exc_type, exc, traceback):
+                return False
+            def read(self):
+                return b"[]"
+
+        with patch("scripts.build_inventory.urllib.request.urlopen", return_value=Response()) as mocked:
+            self.assertEqual(fetch_page("owner", 1, 100, None), [])
+        request = mocked.call_args.args[0]
+        query = parse_qs(urlparse(request.full_url).query)
+        self.assertEqual(query["sort"], ["full_name"])
+        self.assertEqual(query["direction"], ["desc"])
 
 
 if __name__ == "__main__":
