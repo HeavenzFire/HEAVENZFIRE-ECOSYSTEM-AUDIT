@@ -22,13 +22,13 @@ A, B, C, and E are independently actionable. D should finalize after A–C settl
 
 Every work item must specify:
 - stable `task_id` and optional `parent_task_id`;
-- repository, base ref, and isolated branch/workspace;
-- bounded scope and permitted paths;
+- repository and `base_ref` (the commit line on which work starts), plus an isolated branch/workspace;
+- bounded scope and a non-empty `permitted_paths` allowlist of relative paths that cannot escape the repository;
 - declared dependency task IDs;
 - concrete outputs and acceptance checks;
 - timeout and test command;
 - state: `PLANNED`, `RUNNING`, `PASS`, `FAIL`, or `UNKNOWN`;
-- evidence URLs or command output and a rollback/revert reference.
+- evidence URLs or command output, `execution_evidence` for any `RUNNING` task, and a rollback/revert reference. A planned/unknown task with no merged changes must state `not-applicable: no changes merged` rather than inventing a rollback SHA.
 
 A task cannot be marked `PASS` without a test result or other directly inspectable evidence. Missing artifacts or unavailable execution environments mean `UNKNOWN`, not pass.
 
