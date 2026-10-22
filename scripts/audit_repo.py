@@ -23,12 +23,12 @@ TEST_DIRS = {"test", "tests", "__tests__", "spec", "specs"}
 CI_DIRS = {".github/workflows", ".gitlab-ci.yml", ".circleci", "azure-pipelines.yml"}
 DEPLOY_MARKERS = {"Dockerfile", "docker-compose.yml", "compose.yaml", "kubernetes", "k8s", "terraform", "fly.toml", "render.yaml"}
 MOCK_PATTERNS = [
-    (re.compile(r"\\b(mock|mocked|mocking|fixture|stub)\\b", re.I), "mock/stub terminology"),
-    (re.compile(r"\\b(simulat(?:e|ed|ion|ing))\\b", re.I), "simulation terminology"),
-    (re.compile(r"\\b(todo|fixme|not implemented|placeholder|coming soon)\\b", re.I), "unfinished-work marker"),
+    (re.compile(r"\b(mock|mocked|mocking|fixture|stub)\b", re.I), "mock/stub terminology"),
+    (re.compile(r"\b(simulat(?:e|ed|ion|ing))\b", re.I), "simulation terminology"),
+    (re.compile(r"\b(todo|fixme|not implemented|placeholder|coming soon)\b", re.I), "unfinished-work marker"),
 ]
-NETWORK_PATTERNS = re.compile(r"(https?://|\\b(fetch|axios|requests\\.|http\\.|websocket|websocketserver|grpc|mqtt|socket\\.)\\b)", re.I)
-ARRAY_PATTERNS = re.compile(r"(ndarray|numpy|tensor|multidimensional|multi.?dimensional|array\\[|\\[\\[|Array\\.from|Float32Array|Uint8Array)", re.I)
+NETWORK_PATTERNS = re.compile(r"(https?://|\b(fetch|axios|requests\.|http\.|websocket|websocketserver|grpc|mqtt|socket\.)\b)", re.I)
+ARRAY_PATTERNS = re.compile(r"(ndarray|numpy|tensor|multidimensional|multi.?dimensional|array\[|\[\[|Array\.from|Float32Array|Uint8Array)", re.I)
 NETWORK_GRAPH_PATTERNS = re.compile(r"(graph|adjacency|neighbor|neighbour|edge_index|mycel|mesh|voxel|pixel.?grid|cellular autom)", re.I)
 MAX_FILE_BYTES = 1_000_000
 IGNORED_DIRS = {".git", "node_modules", ".venv", "venv", "dist", "build", "target", "__pycache__", ".next"}
