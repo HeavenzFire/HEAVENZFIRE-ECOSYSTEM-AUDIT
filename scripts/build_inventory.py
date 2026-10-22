@@ -26,7 +26,7 @@ USER_RE = re.compile(r"^[A-Za-z0-9-]{1,39}$")
 def fetch_page(username: str, page: int, per_page: int, token: str | None) -> list[dict[str, Any]]:
     query = urllib.parse.urlencode({
         "type": "owner",
-        "sort": "updated",
+        "sort": "full_name",
         "direction": "desc",
         "per_page": per_page,
         "page": page,
