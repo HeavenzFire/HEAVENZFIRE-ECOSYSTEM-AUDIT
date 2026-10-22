@@ -1,0 +1,137 @@
+{
+  "schema_version": 1,
+  "project": "vortex-braid-consensus-test",
+  "updated_at": "2026-10-21",
+  "tasks": [
+    {
+      "task_id": "A",
+      "title": "Hopf state norm and amplitude invariants",
+      "repository": "HeavenzFire/The-Tesla-Hulse-Resonance-Field-Grid",
+      "issue_url": "https://github.com/HeavenzFire/The-Tesla-Hulse-Resonance-Field-Grid/issues/14",
+      "branch": null,
+      "depends_on": [],
+      "scope": [
+        "Hopf state norm",
+        "raw amplitude"
+      ],
+      "outputs": [
+        "norm/projection contract",
+        "deterministic tests"
+      ],
+      "acceptance": [
+        "raw norm remains separate from normalized projection",
+        "tests cover normal and near-zero states"
+      ],
+      "test_command": "npm run build",
+      "timeout_seconds": 300,
+      "status": "PLANNED",
+      "evidence": []
+    },
+    {
+      "task_id": "B",
+      "title": "Braid metric contract and event semantics",
+      "repository": "HeavenzFire/The-Tesla-Hulse-Resonance-Field-Grid",
+      "issue_url": "https://github.com/HeavenzFire/The-Tesla-Hulse-Resonance-Field-Grid/issues/15",
+      "branch": null,
+      "depends_on": [],
+      "scope": [
+        "braid metric definitions",
+        "collision event semantics"
+      ],
+      "outputs": [
+        "metric contract",
+        "label/unit tests"
+      ],
+      "acceptance": [
+        "per-edge, mean, accumulated, and impulse metrics are distinct",
+        "dashboard and JSON share definitions"
+      ],
+      "test_command": "npm run build",
+      "timeout_seconds": 300,
+      "status": "PLANNED",
+      "evidence": []
+    },
+    {
+      "task_id": "C",
+      "title": "Ring+2 topology and edge convention",
+      "repository": "HeavenzFire/The-Tesla-Hulse-Resonance-Field-Grid",
+      "issue_url": "https://github.com/HeavenzFire/The-Tesla-Hulse-Resonance-Field-Grid/issues/16",
+      "branch": null,
+      "depends_on": [],
+      "scope": [
+        "six-node topology",
+        "edge and degree invariants"
+      ],
+      "outputs": [
+        "topology contract",
+        "wraparound tests"
+      ],
+      "acceptance": [
+        "undirected graph reports 12 unique edges and degree four",
+        "directed arcs are not conflated with undirected degree"
+      ],
+      "test_command": "npm run build",
+      "timeout_seconds": 300,
+      "status": "PLANNED",
+      "evidence": []
+    },
+    {
+      "task_id": "D",
+      "title": "Paired seeded consensus intervention experiment",
+      "repository": "HeavenzFire/The-Tesla-Hulse-Resonance-Field-Grid",
+      "issue_url": "https://github.com/HeavenzFire/The-Tesla-Hulse-Resonance-Field-Grid/issues/17",
+      "branch": null,
+      "depends_on": [
+        "A",
+        "B",
+        "C"
+      ],
+      "scope": [
+        "simulation runner",
+        "paired experiments",
+        "JSON artifacts"
+      ],
+      "outputs": [
+        "mesh_history.json",
+        "final_states.json",
+        "experiment summary"
+      ],
+      "acceptance": [
+        "four seeded arms are recorded",
+        "replay metadata and metrics are exported"
+      ],
+      "test_command": "npm run build",
+      "timeout_seconds": 600,
+      "status": "PLANNED",
+      "evidence": []
+    },
+    {
+      "task_id": "E",
+      "title": "Shared task contract and validation",
+      "repository": "HeavenzFire/HEAVENZFIRE-ECOSYSTEM-AUDIT",
+      "issue_url": "https://github.com/HeavenzFire/HEAVENZFIRE-ECOSYSTEM-AUDIT/issues/5",
+      "branch": "feat/microtask-federation-contract",
+      "depends_on": [],
+      "scope": [
+        "task envelope schema",
+        "manifest validation"
+      ],
+      "outputs": [
+        "federation contract",
+        "validator",
+        "example manifest"
+      ],
+      "acceptance": [
+        "invalid dependencies and missing acceptance criteria fail validation",
+        "PASS requires evidence"
+      ],
+      "test_command": "python scripts/validate_task_manifest.py --self-test",
+      "timeout_seconds": 30,
+      "status": "PASS",
+      "evidence": [
+        "https://github.com/HeavenzFire/HEAVENZFIRE-ECOSYSTEM-AUDIT/commit/1610a4d9094eced249f0a51d80a1c6fca5737403",
+        "https://github.com/HeavenzFire/HEAVENZFIRE-ECOSYSTEM-AUDIT/actions/runs/39697987467"
+      ]
+    }
+  ]
+}
