@@ -30,7 +30,7 @@ A fresh authenticated GitHub search for `user:HeavenzFire` was collected on 2026
 
 ## 3. Selected source and test inventory
 
-A focused sample of 24 unique implementation files and 13 test files was counted from the paths below. Counts are physical text lines, including blanks and comments; they are **not** executable SLOC, a quality score, or a complete repository count. The duplicate `shared-task-contract.cjs` in OpenSourceAIHub was counted once by matching its identical Git blob SHA.
+A focused sample of 25 unique implementation files on the selected default branches and 13 test files was counted from the paths below. Counts are physical text lines, including blanks and comments; they are **not** executable SLOC, a quality score, or a complete repository count. The duplicate `shared-task-contract.cjs` in OpenSourceAIHub was counted once by matching its identical Git blob SHA. The private repository counts use its `main` branch; the unmerged adapter branch is assessed separately below.
 
 | Asset group | Selected implementation files | Source lines | Selected test files | Test lines |
 |---|---:|---:|---:|---:|
@@ -41,8 +41,8 @@ A focused sample of 24 unique implementation files and 13 test files was counted
 | HeavenzFire API and agent-swarm service | 2 | 507 | Not included in this sample | — |
 | BrowserBridge task runner | 1 | 199 | 1 | 72 |
 | UnifiedCodebase durable ledger, worker and capability store | 3 | 325 | 3 | 242 |
-| Private OpenSourceAIHub unique pipeline and adapter files | 4 | 400 | 4 | 203 |
-| **Selected total** | **24** | **3,563** | **13** | **1,562** |
+| Private OpenSourceAIHub main-branch local pipeline and guard files | 5 | 443 | 4 | 219 |
+| **Selected total** | **25** | **3,606** | **13** | **1,578** |
 
 This is a deliberately narrow core sample. It excludes Elysium-Gateway, most QuantumLab tests, the remainder of the 661-path main repository, and the other account repositories. It also excludes dependencies and model weights.
 
