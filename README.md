@@ -55,6 +55,7 @@ Do not claim HIPAA, GDPR, SOC 2, production readiness, quantum advantage, or cro
 ## Public inventory and bounded microtask federation
 
 - [Public repository inventory snapshot](inventory/repositories.json) is search-derived and explicitly non-exhaustive; its metadata records the query and collection limits.
+- [Fresh public repository snapshot (2026-11-14)](inventory/repositories-2026-11-14.json) contains 274 public repositories; 7 private repositories are excluded from this public file.
 - [Inventory generator](scripts/build_inventory.py) supports a fresh paginated collection; refresh it with GitHub API access rather than treating the checked-in snapshot as live.
 - [Continuous execution protocol](docs/CONTINUOUS_EXECUTION_PROTOCOL.md) defines READY/BUILDING/VERIFYING/REPAIRING/INTEGRATING/DONE/BLOCKED states and PASS/FAIL/UNKNOWN evidence verdicts.
 - [Independent evidence review](docs/INDEPENDENT_EVIDENCE_REVIEW.md) separates observed implementation from hypotheses and unverified claims.
@@ -62,3 +63,8 @@ Do not claim HIPAA, GDPR, SOC 2, production readiness, quantum advantage, or cro
 - [Task manifest](task-manifest.json) is validated by [scripts/validate_task_manifest.py](scripts/validate_task_manifest.py); it does not claim that a worker or Codespace exists merely because a task is listed.
 
 The combined governance workflow validates local documentation, compiles the Python validators, runs inventory unit tests, validates the task manifest, and executes its validator self-test. These checks do not certify the wider portfolio as production-ready.
+
+
+## Software valuation evidence
+
+- [Valuation evidence baseline](docs/VALUATION_EVIDENCE_BASELINE.md) records the reviewed repository perimeter, selected source/test inventory, exact merged CI evidence, unmerged work exclusions, license/provenance limits, and the evidence still required before a fair-market-value conclusion.
