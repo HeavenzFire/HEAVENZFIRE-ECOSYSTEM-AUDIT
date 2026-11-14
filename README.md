@@ -55,6 +55,7 @@ Do not claim HIPAA, GDPR, SOC 2, production readiness, quantum advantage, or cro
 ## Public inventory and bounded microtask federation
 
 - [Public repository inventory snapshot](inventory/repositories.json) is search-derived and explicitly non-exhaustive; its metadata records the query and collection limits.
+- [Fresh public repository snapshot (2026-11-14)](inventory/repositories-2026-11-14.json) contains 274 public repositories; 7 private repositories are excluded from this public file.
 - [Inventory generator](scripts/build_inventory.py) supports a fresh paginated collection; refresh it with GitHub API access rather than treating the checked-in snapshot as live.
 - [Continuous execution protocol](docs/CONTINUOUS_EXECUTION_PROTOCOL.md) defines READY/BUILDING/VERIFYING/REPAIRING/INTEGRATING/DONE/BLOCKED states and PASS/FAIL/UNKNOWN evidence verdicts.
 - [Independent evidence review](docs/INDEPENDENT_EVIDENCE_REVIEW.md) separates observed implementation from hypotheses and unverified claims.
