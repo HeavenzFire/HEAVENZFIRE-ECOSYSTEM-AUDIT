@@ -62,3 +62,8 @@ Do not claim HIPAA, GDPR, SOC 2, production readiness, quantum advantage, or cro
 - [Task manifest](task-manifest.json) is validated by [scripts/validate_task_manifest.py](scripts/validate_task_manifest.py); it does not claim that a worker or Codespace exists merely because a task is listed.
 
 The combined governance workflow validates local documentation, compiles the Python validators, runs inventory unit tests, validates the task manifest, and executes its validator self-test. These checks do not certify the wider portfolio as production-ready.
+
+
+## Software valuation evidence
+
+- [Valuation evidence baseline](docs/VALUATION_EVIDENCE_BASELINE.md) records the reviewed repository perimeter, selected source/test inventory, exact merged CI evidence, unmerged work exclusions, license/provenance limits, and the evidence still required before a fair-market-value conclusion.
