@@ -24,6 +24,7 @@ A repository count, source-line count, README statement, passing unit test, or G
 | [HeavenzFire/UnifiedCodebase](https://github.com/HeavenzFire/UnifiedCodebase) | Public | 99 paths at `9c0cc0847aaf680af040b6d85fdd110fae5dd00a` | Durable-task and capability primitives; no license file found in the complete tree. |
 | [HeavenzFire/OpenSourceAIHub](https://github.com/HeavenzFire/OpenSourceAIHub) | Private | 35 paths on `main` | Local-first model hub; no license file found. Adapter work exists on a separate feature branch. |
 | [HeavenzFire/Elysium-Gateway](https://github.com/HeavenzFire/Elysium-Gateway) | Public | 37 paths on `main` | Local Gemini-backed PWA; no license file found. Source-level hardening is present; device validation remains open. |
+| [HeavenzFire/The-Elysium-Gateway-](https://github.com/HeavenzFire/The-Elysium-Gateway-) | Public | 80 paths on `main` | Separate prototype, not the same repository as Elysium-Gateway; no license file or test paths found in the inspected tree. Server source binds to `0.0.0.0` and exposes WebSocket routes; exclude pending security review. |
 | [HeavenzFire/HEAVENZFIRE-ECOSYSTEM-AUDIT](https://github.com/HeavenzFire/HEAVENZFIRE-ECOSYSTEM-AUDIT) | Public | 28 paths at baseline review | Evidence and governance workspace; this document extends its evidence record. |
 
 The public snapshot intentionally omits private repository names and metadata. OpenSourceAIHub is the only private repository included in the selected core sample; the remaining private repositories are not included in this valuation perimeter.
@@ -80,6 +81,7 @@ This is a deliberately narrow core sample. It excludes Elysium-Gateway, most Qua
 - [PR #161](https://github.com/HeavenzFire/HeavenzFire/pull/161) adds safer interrupted-worker recovery and approval invalidation. Its exact head has passing dashboard-worker and task-inbox workflows, but it is unmerged and stacked on PR #159.
 - [PR #158](https://github.com/HeavenzFire/HeavenzFire/pull/158) adds a SHA3-256 evidence manifest and has passing CI. It remains unmerged; independent review raised unresolved privacy/schema concerns around identifying artifact IDs and URL query/fragment data. Do not treat it as an adopted evidence control until those findings are closed.
 - Elysium-Gateway's current source binds to loopback, keeps the Gemini credential server-side, validates request fields and size, applies an in-memory rate limit, and includes a client-bundle credential scan. The current tree does not contain a license file; no workflow run was found for its latest observed commit, and Android/device installation, offline/reconnect, and authenticated remote enrollment remain unverified.
+- A separate repository named The-Elysium-Gateway- must not be conflated with Elysium-Gateway. Its inspected server source binds to `0.0.0.0`; no authentication or rate-limit control was visible in the reviewed server paths, and no test paths or license file were found in its tree. Treat it as a security-review candidate, not a production asset.
 
 ## 6. License, provenance and third-party exclusions
 
